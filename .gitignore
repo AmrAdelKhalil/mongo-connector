@@ -8,3 +8,8 @@
 .idea/
 .vscode/
 *.log
+build/
+mongo_connector.egg-info
+mongo_connector_transaction.egg-info
+venv
+oplog.timestamp

@@ -27,17 +27,16 @@ Operating System :: MacOS :: MacOS X
 Operating System :: Microsoft :: Windows
 Operating System :: POSIX
 """
-
 setup(
-    name="mongo-connector",
+    name="mongo-connector-transaction",
     use_scm_version=True,
     author="MongoDB, Inc.",
-    author_email="mongodb-user@googlegroups.com",
-    description="Mongo Connector",
+    author_email="amradelkhalil@gmail.com",
+    description="Mongo Connector Transaction Support",
     keywords=["mongo-connector", "mongo", "mongodb", "solr", "elasticsearch"],
-    url="https://github.com/yougov/mongo-connector",
+    url="https://github.com/AmrAdelKhalil/mongo-connector",
     platforms=["any"],
-    classifiers=filter(None, classifiers.split("\n")),
+    classifiers=classifiers.split("\n"),
     install_requires=[
         "pymongo >= 2.9",
         "importlib_metadata>=0.6",
