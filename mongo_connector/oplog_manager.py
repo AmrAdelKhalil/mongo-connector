@@ -388,7 +388,7 @@ class OplogThread(threading.Thread):
                 )
 
     def is_transaction_entry(self, entry):
-        return entry.get('ns', '') == "admin.$cmd" and entry.get('txnNumber') and entry.get('o') and\
+        return entry.get('ns') and entry.get('txnNumber') and entry.get('o') and\
                entry['o'].get('applyOps')
 
     def join(self):
