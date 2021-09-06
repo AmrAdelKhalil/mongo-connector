@@ -180,7 +180,7 @@ class OplogThread(threading.Thread):
 
         # Commands should not be ignored, filtered, or renamed. Renaming is
         # handled by the DocManagers via the CommandHelper class.
-        if coll == "$cmd":
+        if coll == "$cmd" and not self.is_transaction_entry(entry):
             return False, False
 
         # Rename or filter out namespaces that are ignored keeping
