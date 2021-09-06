@@ -180,7 +180,7 @@ class OplogThread(threading.Thread):
 
         # Commands should not be ignored, filtered, or renamed. Renaming is
         # handled by the DocManagers via the CommandHelper class.
-        if coll == "$cmd" and not self.is_transaction_entry(entry):
+        if coll == "$cmd":
             return False, False
 
         # Rename or filter out namespaces that are ignored keeping
@@ -252,21 +252,17 @@ class OplogThread(threading.Thread):
                             " document number in this cursor is %d" % n
                         )
 
-                        skip, is_gridfs_file = self._should_skip_entry(entry)
-                        if skip:
-                            # update the last_ts on skipped entries to ensure
-                            # our checkpoint does not fall off the oplog. This
-                            # also prevents reprocessing skipped entries.
-                            last_ts = entry["ts"]
-                            continue
-
-                        timestamp = util.bson_ts_to_long(entry["ts"])
-
                         if self.is_transaction_entry(entry):
+                            timestamp = util.bson_ts_to_long(entry["ts"])
                             operations = entry['o'].get('applyOps', [])
                             LOG.debug("OplogThread: Transaction doc will be processed.")
                             for _entry in operations:
                                 LOG.debug("OplogThread: Transaction doc is processing.")
+                                skip, is_gridfs_file = self._should_skip_entry(_entry)
+                                if skip:
+                                    last_ts = entry["ts"]
+                                    continue
+
                                 self.process_operation(_entry, timestamp, is_gridfs_file)
                                 op = _entry["op"]
                                 remove_inc, upsert_inc, update_inc = [
@@ -277,6 +273,13 @@ class OplogThread(threading.Thread):
 
                             LOG.debug("OplogThread: Transaction doc is processed.")
                         else:
+                            skip, is_gridfs_file = self._should_skip_entry(entry)
+                            if skip:
+                                last_ts = entry["ts"]
+                                continue
+
+                            timestamp = util.bson_ts_to_long(entry["ts"])
+
                             self.process_operation(entry, timestamp, is_gridfs_file)
                             op = entry["op"]
                             remove_inc, upsert_inc, update_inc = [
