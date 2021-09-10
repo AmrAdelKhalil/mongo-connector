@@ -33,7 +33,7 @@ setup(
     author="MongoDB, Inc.",
     author_email="amradelkhalil@gmail.com",
     description="Mongo Connector Transaction Support",
-    keywords=["mongo-connector", "mongo", "mongodb", "solr", "elasticsearch"],
+    keywords=["mongo-connector-transaction", "mongo", "mongodb", "solr", "elasticsearch", "transaction"],
     url="https://github.com/AmrAdelKhalil/mongo-connector",
     platforms=["any"],
     classifiers=classifiers.split("\n"),
@@ -49,12 +49,7 @@ setup(
         "console_scripts": ["mongo-connector = mongo_connector.connector:main"]
     },
     extras_require={
-        "solr": ["solr-doc-manager"],
-        "elastic": ["elastic-doc-manager"],
-        "elastic-aws": ["elastic-doc-manager[aws]"],
-        "elastic2": ["elastic2-doc-manager[elastic2]"],
-        "elastic5": ["elastic2-doc-manager[elastic5]"],
-        "elastic2-aws": ["elastic2-doc-manager[elastic2,aws]"],
+        "elastic5": ["elastic2-doc-manager-transaction[elastic5]"]
     },
     setup_requires=[
         "setuptools_scm>=1.5",
