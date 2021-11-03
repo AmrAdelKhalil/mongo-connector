@@ -381,6 +381,15 @@ class OplogThread(threading.Thread):
                     docman.handle_command(doc, entry["ns"], timestamp)
 
             except errors.OperationFailed:
+
+                try:
+                    import traceback
+                    print("**************Printing Error Stack**************")
+                    traceback.print_exc()
+                    print("**************End Error Stack**************")
+                except Exception:
+                    pass
+
                 LOG.exception(
                     "Unable to process oplog document %r" % entry
                 )
